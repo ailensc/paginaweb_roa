@@ -1,0 +1,863 @@
+<!-- ═══════ SECCIÓN 0: Librerías ═══════ -->
+<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+<!-- ═══════ SECCIÓN 1: Estilos / CSS ═══════ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Space+Grotesk:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --r:#ff2d8a;--v:#c44bff;--v2:#7b2fff;--rm:#ff85c0;--vm:#d688ff;
+  --bg0:#07010f;--bg1:#0e0318;--bg2:#160525;--bg3:#1e0830;
+  --txt:#f8eaff;--txt2:#c9a8e8;--txt3:#9b72c0;
+  --border-r:rgba(255,45,138,0.18);--border-v:rgba(196,75,255,0.18);
+}
+.p{background:var(--bg0);color:var(--txt);font-family:'Space Grotesk',sans-serif;min-height:100vh}
+.p p,.hero h1,.hero-sub,.game-card p,.sk-name,.wtitle,.fl-logo,
+.sec-lbl,.hero-eyebrow,.game-ley,.wtag,.wmeta,.sk-type,.fl-copy,
+.nav-links a,.btn-rose,.btn-ghost-v,.logo,.soc a,.wcard-ph,
+.sval,.skey,.prog-lbl span,.ue-crest,.vis-rune,.sec-n
+{text-shadow:0 0 10px rgba(196,75,255,0.1),0 0 25px rgba(255,45,138,0.07)}
+
+.starfield{position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;overflow:hidden}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) infinite var(--delay,0s)}
+@keyframes twinkle{0%,100%{opacity:var(--min,.1)}50%{opacity:var(--max,.8)}}
+
+.rune-bg{
+  position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(60deg,transparent,transparent 40px,rgba(196,75,255,0.015) 40px,rgba(196,75,255,0.015) 41px),
+    repeating-linear-gradient(-60deg,transparent,transparent 40px,rgba(255,45,138,0.015) 40px,rgba(255,45,138,0.015) 41px),
+    repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(123,47,255,0.02) 40px,rgba(123,47,255,0.02) 41px)
+}
+
+/* ─── Sacred Geometry Canvas ─── */
+#geo-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  pointer-events:none;z-index:100;
+  mix-blend-mode:screen;
+}
+
+.wrap{position:relative;z-index:2}
+
+nav{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 36px;
+  border-bottom:0.5px solid var(--border-v);
+  background:rgba(7,1,15,0.94);
+  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:10;
+}
+.logo{font-family:'Cinzel',serif;font-size:14px;font-weight:600;letter-spacing:0.18em;color:var(--rm);text-transform:uppercase}
+.logo em{font-style:normal;color:var(--txt3);font-weight:400;font-family:'Space Grotesk',sans-serif;font-size:11px;letter-spacing:0.12em;margin-left:8px}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-size:12px;color:var(--txt2);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--rm)}
+.nav-orb{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--txt3);letter-spacing:0.1em}
+.orb{width:7px;height:7px;border-radius:50%;background:var(--r);border:1px solid rgba(255,133,192,0.4);animation:breathe 2.5s infinite}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:0.6}}
+
+.hero{padding:60px 36px 64px;border-bottom:0.5px solid var(--border-v);position:relative;overflow:hidden;display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center}
+.hero-orbs{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none}
+.orb-bg{position:absolute;border-radius:50%;opacity:0.06}
+.o1{width:320px;height:320px;background:var(--v2);top:-100px;right:-80px}
+.o2{width:200px;height:200px;background:var(--r);bottom:-60px;left:10%}
+.o3{width:140px;height:140px;background:var(--v);top:40%;left:45%}
+.sigil{position:absolute;right:36px;top:60px;opacity:0.04;pointer-events:none;transition:transform 0.15s ease-out;width:140px;height:140px}
+
+.hero-eyebrow{font-family:'Cinzel',serif;font-size:10px;color:var(--rm);letter-spacing:0.3em;text-transform:uppercase;display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hero-eyebrow::before{content:'✦';font-size:8px;color:var(--vm)}
+.hero-eyebrow::after{content:'✦';font-size:8px;color:var(--vm)}
+.hero h1{font-family:'Cinzel',serif;font-size:46px;font-weight:600;line-height:1.1;color:var(--txt);margin-bottom:10px;letter-spacing:0.04em}
+.hero h1 .fade{color:rgba(240,214,255,0.18)}
+.hero-sub{font-size:15px;color:var(--txt2);line-height:1.85;margin-bottom:36px;font-weight:300}
+.hero-ctas{display:flex;gap:14px}
+
+.btn-rose{
+  background:transparent;border:0.5px solid var(--r);
+  color:var(--rm);padding:11px 26px;
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;border-radius:2px;position:relative;
+}
+.btn-rose:hover{background:rgba(255,45,138,0.1)}
+.btn-ghost-v{
+  background:transparent;border:0.5px solid rgba(214,136,255,0.25);
+  color:var(--txt2);padding:11px 26px;
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.25s;border-radius:2px;position:relative;
+}
+.btn-ghost-v:hover{border-color:var(--vm);color:var(--vm)}
+
+.sec-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
+.sec-lbl{font-family:'Cinzel',serif;font-size:10px;color:var(--vm);letter-spacing:0.25em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.sec-lbl::before{content:'';display:block;width:20px;height:0.5px;background:var(--v);opacity:0.5}
+.sec-n{font-size:12px;color:var(--txt3);letter-spacing:0.1em;font-family:'Cinzel',serif}
+
+.works-grid{display:grid;grid-template-columns:1fr;gap:1px}
+.wcard{
+  background:var(--bg1);border:0.5px solid rgba(196,75,255,0.08);
+  position:relative;overflow:hidden;cursor:pointer;min-height:180px;
+  transition:border-color 0.25s;
+  transform-style:preserve-3d;
+  perspective:800px;
+}
+.wcard:hover{border-color:rgba(255,45,138,0.35)}
+.wcard.hero-card{min-height:380px}
+.wcard.char-card{grid-row:span 2;min-height:380px}
+
+/* ─── Hover sacred geometry overlay ─── */
+.wcard::after{
+  content:'';position:absolute;top:50%;left:50%;width:0;height:0;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,45,138,0.04),transparent 70%);
+  transform:translate(-50%,-50%);
+  transition:width 0.6s ease-out,height 0.6s ease-out,opacity 0.6s ease-out;
+  pointer-events:none;opacity:0;z-index:1;
+}
+.wcard:hover::after{width:600px;height:600px;opacity:1}
+
+.wcard-sg-overlay{
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  pointer-events:none;z-index:1;opacity:0;
+  transition:opacity 0.4s;
+}
+.wcard:hover .wcard-sg-overlay{opacity:0.5}
+
+.wcard-inner{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.wcard model-viewer{position:absolute;top:0;left:0;width:100%;height:100%;--progress-bar-color:transparent;--poster-color:transparent;cursor:grab;z-index:1}
+.wcard model-viewer:active{cursor:grabbing}
+.wcard model-viewer::part(default-progress-bar){display:none}
+.wcard-ico{width:48px;height:48px;border:0.5px solid rgba(196,75,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(196,75,255,0.3);font-size:20px;transition:all 0.4s;position:relative}
+.wcard:hover .wcard-ico{border-color:rgba(255,45,138,0.4);color:var(--rm);box-shadow:0 0 30px rgba(255,45,138,0.08)}
+.wcard-ph{font-family:'Cinzel',serif;font-size:9px;color:rgba(240,214,255,0.12);letter-spacing:0.2em;text-transform:uppercase}
+
+.petal-tl{position:absolute;top:10px;left:10px;width:16px;height:16px;border-top:0.5px solid var(--rm);border-left:0.5px solid var(--rm);opacity:0.35;border-radius:0;transition:all 0.4s}
+.petal-br{position:absolute;bottom:10px;right:10px;width:16px;height:16px;border-bottom:0.5px solid var(--vm);border-right:0.5px solid var(--vm);opacity:0.35;border-radius:0;transition:all 0.4s}
+.petal-tr{position:absolute;top:10px;right:10px;width:10px;height:10px;border-top:0.5px solid var(--vm);border-right:0.5px solid var(--vm);opacity:0.2;border-radius:0;transition:all 0.4s}
+
+.wcard:hover .petal-tl{width:24px;height:24px;opacity:0.7;border-color:var(--r)}
+.wcard:hover .petal-br{width:24px;height:24px;opacity:0.7;border-color:var(--v)}
+.wcard:hover .petal-tr{width:16px;height:16px;opacity:0.5;border-color:var(--rm)}
+
+.wcard-info{padding:16px;background:linear-gradient(transparent,rgba(7,1,15,0.94));position:relative;z-index:2}
+.wtag{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;padding:3px 8px;border:0.5px solid;display:inline-block;margin-bottom:6px;border-radius:2px}
+.wtag.r{color:var(--rm);border-color:rgba(255,45,138,0.3)}
+.wtag.v{color:var(--vm);border-color:rgba(214,136,255,0.3)}
+.wtag.d{color:#d4a0ff;border-color:rgba(180,100,255,0.3)}
+.wtitle{font-size:14px;font-weight:500;color:var(--txt);margin-bottom:3px}
+.wmeta{font-size:11px;color:var(--txt3);font-family:'Cinzel',serif;letter-spacing:0.08em}
+
+.game-section{padding:60px 36px;border-bottom:0.5px solid rgba(196,75,255,0.07)}
+.game-card{
+  border:0.5px solid rgba(255,45,138,0.2);
+  background:var(--bg1);padding:42px;
+  display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
+  position:relative;overflow:hidden;border-radius:2px;
+  transform-style:preserve-3d;perspective:800px;
+}
+.game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--r),var(--v),transparent);opacity:0.6}
+.game-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:0.5px;background:linear-gradient(90deg,transparent,var(--v),var(--r),transparent);opacity:0.3}
+
+.game-ley{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.3em;color:var(--rm);display:flex;align-items:center;gap:9px;margin-bottom:22px;text-transform:uppercase}
+.pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--r);border:1px solid rgba(255,133,192,0.5);animation:breathe 1.8s infinite}
+
+.game-card h2{font-family:'Cinzel',serif;font-size:28px;font-weight:600;color:var(--txt);line-height:1.2;margin-bottom:16px;letter-spacing:0.06em}
+.game-card p{font-size:14px;color:var(--txt2);line-height:1.85;margin-bottom:28px;font-weight:300}
+.game-stats{display:flex;gap:20px;margin-bottom:28px}
+.sbox{border:0.5px solid rgba(255,45,138,0.15);padding:12px 16px;background:rgba(255,45,138,0.04);border-radius:2px;min-width:68px}
+.sval{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--rm);display:block;margin-bottom:4px}
+.skey{font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:0.15em;text-transform:uppercase}
+.prog-lbl{display:flex;justify-content:space-between;margin-bottom:8px}
+.prog-lbl span{font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:0.12em;text-transform:uppercase}
+.prog-lbl span:last-child{color:var(--rm)}
+.prog-track{height:1px;background:rgba(255,45,138,0.12)}
+.prog-fill{height:1px;width:35%;background:var(--r);position:relative}
+.prog-fill::after{content:'◆';position:absolute;right:-5px;top:-5px;font-size:8px;color:var(--r)}
+
+.game-vis{
+  background:var(--bg0);border:0.5px solid rgba(255,45,138,0.12);
+  aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:18px;position:relative;overflow:hidden;border-radius:2px;
+}
+.vis-hex{position:absolute;top:0;left:0;right:0;bottom:0;
+  background-image:
+    repeating-linear-gradient(30deg,transparent,transparent 22px,rgba(255,45,138,0.04) 22px,rgba(255,45,138,0.04) 23px),
+    repeating-linear-gradient(-30deg,transparent,transparent 22px,rgba(196,75,255,0.04) 22px,rgba(196,75,255,0.04) 23px)
+}
+.vis-orb{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(123,47,255,0.06);border:0.5px solid rgba(196,75,255,0.15)}
+.ue-crest{font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.22em;color:rgba(255,133,192,0.5);border:0.5px solid rgba(255,45,138,0.2);padding:5px 14px;text-transform:uppercase;position:relative;z-index:1;border-radius:2px}
+.vis-icon{font-size:38px;color:rgba(196,75,255,0.18);position:relative;z-index:1}
+.vis-rune{position:absolute;font-family:'Cinzel',serif;font-size:9px;color:rgba(255,45,138,0.12);letter-spacing:0.15em}
+.vr1{top:12px;left:14px}.vr2{bottom:12px;right:14px}
+
+.skills-section{padding:56px 36px;border-bottom:0.5px solid rgba(196,75,255,0.07)}
+.skills-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:32px}
+.sk{background:var(--bg1);border:0.5px solid rgba(196,75,255,0.07);padding:18px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color 0.2s,transform 0.3s;position:relative;transform-style:preserve-3d;perspective:800px}
+.sk:hover{border-color:rgba(255,45,138,0.3)}
+.sk i{font-size:18px;color:rgba(196,75,255,0.4);transition:color 0.3s}
+.sk:hover i{color:var(--rm)}
+.sk-name{font-size:13px;color:var(--txt);font-weight:400}
+.sk-type{font-family:'Cinzel',serif;font-size:9px;color:var(--txt3);letter-spacing:0.14em;text-transform:uppercase}
+.sk-bar{height:0.5px;background:rgba(196,75,255,0.1);margin-top:6px}
+.sk-fill{height:0.5px;background:linear-gradient(90deg,var(--r),var(--v))}
+
+footer{padding:28px 36px;display:flex;justify-content:space-between;align-items:center;border-top:0.5px solid rgba(255,45,138,0.1)}
+.fl{display:flex;flex-direction:column;gap:5px}
+.fl-logo{font-family:'Cinzel',serif;font-size:12px;color:var(--rm);letter-spacing:0.2em}
+.fl-copy{font-size:11px;color:var(--txt3)}
+.soc{display:flex;gap:16px}
+.soc a{color:var(--txt3);font-size:18px;text-decoration:none;transition:color 0.2s}
+.soc a:hover{color:var(--rm)}
+
+.divider{width:100%;height:0.5px;background:linear-gradient(90deg,transparent,rgba(255,45,138,0.2),rgba(196,75,255,0.3),rgba(255,45,138,0.2),transparent);pointer-events:none}
+.divider-wrap{width:100%;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;z-index:3;margin:-20px 0;pointer-events:auto}
+.divider-wrap:hover .divider{background:linear-gradient(90deg,transparent,rgba(255,45,138,0.5),rgba(196,75,255,0.6),rgba(255,45,138,0.5),transparent);height:1px}
+</style>
+
+<!-- ═══════ SECCIÓN 2: Backgrounds (rune-bg, starfield, canvas) ═══════ -->
+<div class="p">
+<div class="rune-bg"></div>
+<div class="starfield" id="sf"></div>
+<canvas id="geo-canvas"></canvas>
+<div class="wrap">
+
+<!-- ═══════ SECCIÓN 3: Navegación ═══════ -->
+<nav>
+  <div class="logo">AILEN COLAZO <em>/ 3D Artist</em></div>
+  <ul class="nav-links">
+    <li><a href="#">Trabajos</a></li>
+    <li><a href="#">Proyecto UE5</a></li>
+    <li><a href="#">Skills</a></li>
+    <li><a href="#">Contacto</a></li>
+  </ul>
+  <div class="nav-orb"><div class="orb"></div>Disponible</div>
+</nav>
+
+<!-- ═══════ SECCIÓN 4: Hero + Trabajos (01) ═══════ -->
+<div class="hero">
+  <div class="hero-orbs">
+    <div class="orb-bg o1"></div>
+    <div class="orb-bg o2"></div>
+    <div class="orb-bg o3"></div>
+  </div>
+  <svg class="sigil" id="sigil" width="180" height="180" viewBox="0 0 180 180" aria-hidden="true">
+    <circle cx="90" cy="90" r="80" fill="none" stroke="rgba(196,75,255,0.6)" stroke-width="0.5"/>
+    <circle cx="90" cy="90" r="55" fill="none" stroke="rgba(255,45,138,0.5)" stroke-width="0.5"/>
+    <circle cx="90" cy="90" r="30" fill="none" stroke="rgba(196,75,255,0.5)" stroke-width="0.5"/>
+    <polygon points="90,10 170,140 10,140" fill="none" stroke="rgba(255,45,138,0.4)" stroke-width="0.5"/>
+    <polygon points="90,170 10,40 170,40" fill="none" stroke="rgba(196,75,255,0.35)" stroke-width="0.5"/>
+    <circle cx="90" cy="90" r="4" fill="rgba(255,45,138,0.5)"/>
+    <line x1="90" y1="10" x2="90" y2="170" stroke="rgba(196,75,255,0.15)" stroke-width="0.5"/>
+    <line x1="10" y1="90" x2="170" y2="90" stroke="rgba(255,45,138,0.15)" stroke-width="0.5"/>
+  </svg>
+
+  <div>
+    <p class="hero-eyebrow">01 — Portfolio — 3D Art &amp; Game Dev</p>
+    <h1 style="margin-bottom:10px">Artist 3D<br>&amp; <span class="fade">◆◆◆</span><br>Game Dev</h1>
+    <p class="hero-sub">Modelado, renders cinemáticos y mundos interactivos. Creando un videojuego en Unreal Engine 5 desde cero.</p>
+    <div class="hero-ctas">
+      <a href="https://www.artstation.com/ailensc" target="_blank" class="btn-rose no-underline inline-block">Ver trabajos</a>
+      <button class="btn-ghost-v">Contactar</button>
+    </div>
+  </div>
+
+  <div>
+    <div style="display:flex;align-items:center;margin-bottom:20px">
+      <span class="sec-lbl">02 · Trabajos seleccionados</span>
+    </div>
+    <div class="works-grid">
+      <div class="wcard hero-card" data-tilt>
+        <svg class="wcard-sg-overlay" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,45,138,0.2)" stroke-width="0.3"/>
+          <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(196,75,255,0.15)" stroke-width="0.3"/>
+          <polygon points="100,20 178,140 22,140" fill="none" stroke="rgba(255,45,138,0.15)" stroke-width="0.3"/>
+          <polygon points="100,180 22,60 178,60" fill="none" stroke="rgba(196,75,255,0.1)" stroke-width="0.3"/>
+          <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(255,45,138,0.12)" stroke-width="0.3"/>
+          <line x1="100" y1="20" x2="100" y2="180" stroke="rgba(196,75,255,0.08)" stroke-width="0.3"/>
+          <line x1="22" y1="100" x2="178" y2="100" stroke="rgba(255,45,138,0.08)" stroke-width="0.3"/>
+        </svg>
+        <div class="wcard-inner">
+          <div class="wcard-ico"><i class="ti ti-3d-cube-sphere" aria-hidden="true"></i></div>
+          <span class="wcard-ph">Render principal</span>
+        </div>
+        <div class="petal-tl"></div><div class="petal-br"></div><div class="petal-tr"></div>
+        <div class="wcard-info">
+          <span class="wtag r">Render</span>
+          <div class="wtitle">Nombre del proyecto</div>
+          <div class="wmeta">Blender · Cycles · 2024</div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SECCIÓN 6: Personaje 3D ═══════ -->
+<div class="game-section" style="display:flex;flex-direction:column;justify-content:center;border-bottom:0.5px solid rgba(196,75,255,0.07);padding-bottom:60px">
+  <div class="sec-hd" style="margin-bottom:32px">
+    <span class="sec-lbl">03 · Personaje 3D interactivo</span>
+  </div>
+  <div style="flex:1;display:flex;align-items:stretch;justify-content:center;gap:16px;min-height:0;padding:20px 16px">
+    <div class="wcard char-card" style="flex:1 1 0;min-width:0;grid-row:unset;min-height:320px;height:auto">
+      <model-viewer
+        src="models/idle_homuncula.glb"
+        alt="Homúncula"
+        auto-rotate
+        rotation-per-second="30deg"
+        camera-controls
+        interaction-prompt="none"
+        loading="eager"
+        reveal="auto"
+        exposure="2"
+        shadow-intensity="1"
+        shadow-softness="0.5"
+        tone-mapping="neutral"
+        animation-name="All"
+        animation-crossfade-duration="0.5"
+        style="background:rgba(255,255,255,0.03);min-height:320px"
+      ></model-viewer>
+      <div class="petal-tl"></div><div class="petal-br"></div>
+      <div class="wcard-info" style="z-index:5">
+        <span class="wtag d">Character</span>
+        <div class="wtitle">Homúncula</div>
+        <div class="wmeta">ZBrush · Blender · 2024</div>
+      </div>
+    </div>
+    <div class="wcard char-card" style="flex:1 1 0;min-width:0;grid-row:unset;min-height:320px;height:auto">
+      <model-viewer
+        id="kaliza-viewer"
+        src="models/kaliza_idle.glb"
+        alt="Kaliza"
+        auto-rotate
+        rotation-per-second="30deg"
+        camera-controls
+        interaction-prompt="none"
+        loading="eager"
+        reveal="auto"
+        exposure="1.2"
+        shadow-intensity="1"
+        shadow-softness="0.5"
+        tone-mapping="neutral"
+        camera-orbit="0deg 75deg 1.5m"
+        animation-name="All"
+        animation-crossfade-duration="0.5"
+        style="background:rgba(255,255,255,0.03);min-height:320px"
+      ></model-viewer>
+      <div class="petal-tl"></div><div class="petal-br"></div>
+      <div class="wcard-info" style="z-index:5">
+        <span class="wtag d">Character</span>
+        <div class="wtitle">Kaliza</div>
+        <div class="wmeta">ZBrush · Blender · 2024</div>
+      </div>
+    </div>
+    <div class="wcard char-card" style="flex:1 1 0;min-width:0;grid-row:unset;min-height:320px;height:auto">
+      <div class="wcard-inner" style="pointer-events:none;z-index:1">
+        <div class="wcard-ico"><i class="ti ti-plus" aria-hidden="true"></i></div>
+        <span class="wcard-ph">Nuevo personaje</span>
+      </div>
+      <div class="petal-tl"></div><div class="petal-br"></div>
+      <div class="wcard-info" style="z-index:5">
+        <span class="wtag v">Próximamente</span>
+        <div class="wtitle">—</div>
+        <div class="wmeta">Añade tu .glb aquí</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SECCIÓN 5: Videojuego en desarrollo (UE5) ═══════ -->
+<div class="game-section">
+  <div class="sec-hd">
+    <span class="sec-lbl">04 · Videojuego en desarrollo</span>
+  </div>
+  <div class="game-card" data-tilt>
+    <div>
+      <div class="game-ley"><span class="pulse-dot"></span>En desarrollo — UE5</div>
+      <h2>Nombre<br>del juego</h2>
+      <p>Breve descripción del proyecto: género, ambientación y mecánicas principales. Qué lo hace único y memorable.</p>
+      <div class="game-stats">
+        <div class="sbox"><span class="sval">UE5</span><span class="skey">Motor</span></div>
+        <div class="sbox"><span class="sval">Solo</span><span class="skey">Equipo</span></div>
+        <div class="sbox"><span class="sval">2024</span><span class="skey">Inicio</span></div>
+      </div>
+      <div class="prog-lbl"><span>Progreso</span><span>35%</span></div>
+      <div class="prog-track"><div class="prog-fill"></div></div>
+    </div>
+    <div class="game-vis">
+      <div class="vis-hex"></div>
+      <div class="vis-orb"></div>
+      <i class="ti ti-device-gamepad-2 vis-icon" aria-hidden="true"></i>
+      <div class="ue-crest">Unreal Engine 5</div>
+      <span class="vis-rune vr1">◈ UE5.4</span>
+      <span class="vis-rune vr2">◈ Alpha</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SECCIÓN 7: Skills / Herramientas ═══════ -->
+<div class="skills-section">
+  <div class="sec-hd">
+    <span class="sec-lbl">05 · Herramientas y software</span>
+  </div>
+  <div class="skills-grid">
+    <div class="sk" data-tilt><i class="ti ti-3d-cube-sphere" aria-hidden="true"></i><div class="sk-name">Blender</div><div class="sk-type">Modelado · Render</div><div class="sk-bar"><div class="sk-fill" style="width:92%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-device-gamepad-2" aria-hidden="true"></i><div class="sk-name">Unreal Engine 5</div><div class="sk-type">Game Dev</div><div class="sk-bar"><div class="sk-fill" style="width:70%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-brush" aria-hidden="true"></i><div class="sk-name">ZBrush</div><div class="sk-type">Sculpting</div><div class="sk-bar"><div class="sk-fill" style="width:80%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-photo" aria-hidden="true"></i><div class="sk-name">Substance Painter</div><div class="sk-type">Texturizado</div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-shadow" aria-hidden="true"></i><div class="sk-name">Cinema 4D</div><div class="sk-type">Motion · Render</div><div class="sk-bar"><div class="sk-fill" style="width:75%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-cube" aria-hidden="true"></i><div class="sk-name">3ds Max</div><div class="sk-type">Modelado</div><div class="sk-bar"><div class="sk-fill" style="width:65%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-adjustments" aria-hidden="true"></i><div class="sk-name">Resolume Arena</div><div class="sk-type">Visuals for shows</div><div class="sk-bar"><div class="sk-fill" style="width:88%"></div></div></div>
+    <div class="sk" data-tilt><i class="ti ti-sparkles" aria-hidden="true"></i><div class="sk-name">After Effects</div><div class="sk-type">Compositing</div><div class="sk-bar"><div class="sk-fill" style="width:60%"></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════ SECCIÓN 9: Divisor ornamental 2 ═══════ -->
+<div class="divider-wrap"><div class="divider"></div></div>
+
+<!-- ═══════ SECCIÓN 10: Footer ═══════ -->
+<footer>
+  <div class="fl">
+    <div class="fl-logo">Tu Nombre</div>
+    <div class="fl-copy">© 2024 — 3D Artist &amp; Game Dev</div>
+  </div>
+  <div class="soc">
+    <a href="https://www.youtube.com/@ailens.c" target="_blank" aria-label="YouTube"><i class="ti ti-brand-youtube" aria-hidden="true"></i></a>
+    <a href="https://discord.gg/cTZBAC7hH" target="_blank" aria-label="Discord"><i class="ti ti-brand-discord" aria-hidden="true"></i></a>
+    <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram" aria-hidden="true"></i></a>
+    <a href="#" aria-label="LinkedIn"><i class="ti ti-brand-linkedin" aria-hidden="true"></i></a>
+  </div>
+</footer>
+
+</div>
+</div>
+
+<script>
+// ═══════ SECCIÓN 11: Generación de estrellas ═══════
+const sf = document.getElementById('sf');
+for(let i=0;i<60;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const size=Math.random()*2+0.5;
+  s.style.cssText=`
+    width:${size}px;height:${size}px;
+    left:${Math.random()*100}%;top:${Math.random()*100}%;
+    --d:${2+Math.random()*4}s;--delay:${Math.random()*4}s;
+    --min:${0.05+Math.random()*0.1};--max:${0.5+Math.random()*0.5};
+  `;
+  sf.appendChild(s);
+}
+
+// ═══════ SECCIÓN 12: Canvas Geometría Sagrada ═══════
+const canvas = document.getElementById('geo-canvas');
+const ctx = canvas.getContext('2d');
+let W, H;
+
+function resize(){
+  W=canvas.width=window.innerWidth;
+  H=canvas.height=window.innerHeight;
+}
+resize();
+window.addEventListener('resize',resize);
+
+const mouse={x:W/2,y:H/2,dx:0,dy:0};
+const particles=[];
+const MAX_P=60;
+
+class SGparticle{
+  constructor(){
+    this.reset();
+  }
+  reset(){
+    this.x=mouse.x+(Math.random()-0.5)*300;
+    this.y=mouse.y+(Math.random()-0.5)*300;
+    this.size=8+Math.random()*14;
+    this.speed=0.5+Math.random()*0.8;
+    this.angle=Math.random()*Math.PI*2;
+    this.rotSpeed=(Math.random()-0.5)*0.03;
+    this.phase=Math.random()*Math.PI*2;
+    this.life=1;
+    this.type=Math.floor(Math.random()*3);
+    this.opacity=0.5+Math.random()*0.4;
+    this.hue=Math.random()*60+320; // pink-violet range
+  }
+  update(){
+    const dx=mouse.x-this.x;
+    const dy=mouse.y-this.y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+
+    if(dist>30){
+      this.x+=dx*0.02;
+      this.y+=dy*0.02;
+    }else{
+      this.x+=mouse.dx*0.3+Math.cos(this.angle+this.phase)*0.3;
+      this.y+=mouse.dy*0.3+Math.sin(this.angle+this.phase)*0.3;
+    }
+
+    if(dist<120){
+      const push=(1-dist/120)*0.4;
+      this.x+=mouse.dx*push;
+      this.y+=mouse.dy*push;
+    }
+
+    this.angle+=this.rotSpeed;
+    this.life=Math.min(1,this.life+0.008);
+  }
+  draw(){
+    const now=Date.now()*0.002;
+    const pulse=0.7+0.3*Math.sin(now+this.phase);
+    const a=this.opacity*pulse;
+
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.rotate(this.angle);
+
+    // Outer glow
+    ctx.shadowColor=this.type===0?'rgba(196,75,255,0.4)':
+      this.type===1?'rgba(255,45,138,0.4)':'rgba(214,136,255,0.4)';
+    ctx.shadowBlur=12+Math.sin(now+this.phase)*4;
+
+    const r=this.size;
+    ctx.lineWidth=0.8+Math.sin(now+this.phase)*0.3;
+
+    if(this.type===0){
+      // hexagon
+      ctx.strokeStyle=`rgba(196,75,255,${a})`;
+      ctx.beginPath();
+      for(let i=0;i<6;i++){
+        const ang=Math.PI/3*i-Math.PI/6;
+        const px=Math.cos(ang)*r;
+        const py=Math.sin(ang)*r;
+        i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+      }
+      ctx.closePath();ctx.stroke();
+      // inner fill
+      ctx.fillStyle=`rgba(196,75,255,${a*0.04})`;
+      ctx.fill();
+      // inner ring
+      ctx.strokeStyle=`rgba(255,45,138,${a*0.3})`;
+      ctx.lineWidth=0.3+Math.sin(now+this.phase)*0.2;
+      ctx.beginPath();
+      for(let i=0;i<6;i++){
+        const ang=Math.PI/3*i-Math.PI/6;
+        const px=Math.cos(ang)*r*0.5;
+        const py=Math.sin(ang)*r*0.5;
+        i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+      }
+      ctx.closePath();ctx.stroke();
+    }else if(this.type===1){
+      // diamond
+      ctx.strokeStyle=`rgba(255,45,138,${a})`;
+      ctx.beginPath();
+      ctx.moveTo(0,-r);
+      ctx.lineTo(r*0.8,0);
+      ctx.lineTo(0,r);
+      ctx.lineTo(-r*0.8,0);
+      ctx.closePath();ctx.stroke();
+      ctx.fillStyle=`rgba(255,45,138,${a*0.04})`;
+      ctx.fill();
+      // cross lines
+      ctx.strokeStyle=`rgba(255,133,192,${a*0.5})`;
+      ctx.lineWidth=0.4;
+      ctx.beginPath();ctx.moveTo(-r*0.4,0);ctx.lineTo(r*0.4,0);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,-r*0.4);ctx.lineTo(0,r*0.4);ctx.stroke();
+    }else{
+      // circle with rings
+      ctx.strokeStyle=`rgba(214,136,255,${a})`;
+      ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke();
+      ctx.strokeStyle=`rgba(255,45,138,${a*0.4})`;
+      ctx.beginPath();ctx.arc(0,0,r*0.65,0,Math.PI*2);ctx.stroke();
+      ctx.strokeStyle=`rgba(196,75,255,${a*0.6})`;
+      ctx.lineWidth=0.5;
+      ctx.beginPath();ctx.moveTo(-r*0.8,0);ctx.lineTo(r*0.8,0);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,-r*0.8);ctx.lineTo(0,r*0.8);ctx.stroke();
+      // center dot
+      ctx.fillStyle=`rgba(255,133,192,${a*0.6})`;
+      ctx.shadowBlur=20;
+      ctx.beginPath();ctx.arc(0,0,2,0,Math.PI*2);ctx.fill();
+    }
+    ctx.shadowBlur=0;
+    ctx.restore();
+  }
+}
+
+function spawnParticles(){
+  if(particles.length<MAX_P&&Math.random()<0.3){
+    particles.push(new SGparticle());
+  }
+}
+
+function updateParticles(){
+  for(let i=particles.length-1;i>=0;i--){
+    particles[i].update();
+    if(particles[i].life<0.01||
+       particles[i].x<-100||particles[i].x>W+100||
+       particles[i].y<-100||particles[i].y>H+100){
+      particles.splice(i,1);
+    }
+  }
+}
+
+function drawParticles(){
+  for(const p of particles)p.draw();
+}
+
+// ═══════ SECCIÓN 13: Mouse tracking (sigil + tilt) ═══════
+let targetSigilRot=0,sigilRot=0;
+
+document.addEventListener('mousemove',e=>{
+  const px=e.clientX/W*2-1;
+  const py=e.clientY/H*2-1;
+  mouse.dx=(e.clientX-mouse.x)*0.08;
+  mouse.dy=(e.clientY-mouse.y)*0.08;
+  mouse.x=e.clientX;
+  mouse.y=e.clientY;
+
+  // Sigil follows mouse
+  targetSigilRot=px*6;
+});
+
+// ═══════ SECCIÓN 14: Efecto 3D Tilt ═══════
+const tiltEls=document.querySelectorAll('[data-tilt]');
+
+tiltEls.forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const rect=el.getBoundingClientRect();
+    const x=e.clientX-rect.left;
+    const y=e.clientY-rect.top;
+    const cx=rect.width/2;
+    const cy=rect.height/2;
+    const dx=(x-cx)/cx;
+    const dy=(y-cy)/cy;
+    const rx=dy*-12;
+    const ry=dx*12;
+    el.style.transform=`perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    // Glow follows mouse
+    el.style.setProperty('--mx',`${x}px`);
+    el.style.setProperty('--my',`${y}px`);
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform='perspective(800px) rotateX(0deg) rotateY(0deg)';
+  });
+});
+
+// ═══════ SECCIÓN 15: Botones magnéticos ═══════
+const btns=document.querySelectorAll('.btn-rose,.btn-ghost-v');
+
+btns.forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const rect=btn.getBoundingClientRect();
+    const x=e.clientX-rect.left-rect.width/2;
+    const y=e.clientY-rect.top-rect.height/2;
+    const dist=Math.sqrt(x*x+y*y);
+    if(dist<80){
+      const strength=0.15;
+      btn.style.transform=`translate(${x*strength}px,${y*strength}px)`;
+    }
+  });
+  btn.addEventListener('mouseleave',()=>{
+    btn.style.transform='';
+  });
+});
+
+// ═══════ SECCIÓN 16: Partículas en divisores ═══════
+const dividerParticles=[];
+const MAX_DP=100;
+let activeDividers=[];
+
+class DividerBurst{
+  constructor(x,y){
+    this.x=x;
+    this.y=y;
+    this.parts=[];
+    const count=8+Math.floor(Math.random()*4);
+    for(let i=0;i<count;i++){
+      const angle=-Math.PI/2+Math.random()*Math.PI;
+      const speed=0.8+Math.random()*2.2;
+      this.parts.push({
+        x:0,y:0,
+        vx:Math.cos(angle)*speed,
+        vy:Math.sin(angle)*speed,
+        size:6+Math.random()*12,
+        life:1,
+        decay:0.006+Math.random()*0.01,
+        type:Math.floor(Math.random()*3),
+        rot:Math.random()*Math.PI*2,
+        rotSpeed:(Math.random()-0.5)*0.05,
+        phase:Math.random()*Math.PI*2,
+      });
+    }
+  }
+  update(){
+    for(const p of this.parts){
+      p.x+=p.vx;p.y+=p.vy;
+      p.vy+=0.006;
+      p.vx*=0.995;
+      p.rot+=p.rotSpeed;
+      p.life-=p.decay;
+    }
+  }
+  draw(){
+    const now=Date.now()*0.003;
+    for(const p of this.parts){
+      if(p.life<=0)continue;
+      const pulse=0.7+0.3*Math.sin(now+p.phase);
+      const a=p.life*0.6*pulse;
+      ctx.save();
+      ctx.translate(this.x+p.x,this.y+p.y);
+      ctx.rotate(p.rot);
+      const r=p.size*p.life;
+      ctx.lineWidth=0.8*p.life;
+
+      ctx.shadowColor='rgba(255,45,138,0.3)';
+      ctx.shadowBlur=10+Math.sin(now+p.phase)*5;
+
+      if(p.type===0){
+        ctx.strokeStyle=`rgba(196,75,255,${a})`;
+        ctx.beginPath();
+        for(let i=0;i<6;i++){
+          const ang=Math.PI/3*i-Math.PI/6;
+          const px=Math.cos(ang)*r;
+          const py=Math.sin(ang)*r;
+          i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+        }
+        ctx.closePath();ctx.stroke();
+        ctx.fillStyle=`rgba(196,75,255,${a*0.06})`;
+        ctx.fill();
+        ctx.strokeStyle=`rgba(255,45,138,${a*0.5})`;
+        ctx.lineWidth=0.4*p.life;
+        ctx.beginPath();
+        ctx.moveTo(-r*0.6,0);ctx.lineTo(r*0.6,0);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0,-r*0.6);ctx.lineTo(0,r*0.6);
+        ctx.stroke();
+      }else if(p.type===1){
+        ctx.strokeStyle=`rgba(255,45,138,${a})`;
+        ctx.beginPath();
+        ctx.moveTo(0,-r);
+        ctx.lineTo(r*0.8,0);
+        ctx.lineTo(0,r);
+        ctx.lineTo(-r*0.8,0);
+        ctx.closePath();ctx.stroke();
+        ctx.fillStyle=`rgba(255,45,138,${a*0.06})`;
+        ctx.fill();
+        ctx.strokeStyle=`rgba(255,133,192,${a*0.5})`;
+        ctx.beginPath();ctx.arc(0,0,r*0.35,0,Math.PI*2);ctx.stroke();
+      }else{
+        ctx.strokeStyle=`rgba(214,136,255,${a})`;
+        ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.stroke();
+        ctx.fillStyle=`rgba(214,136,255,${a*0.04})`;
+        ctx.fill();
+        ctx.strokeStyle=`rgba(255,45,138,${a*0.5})`;
+        ctx.beginPath();ctx.arc(0,0,r*0.5,0,Math.PI*2);ctx.stroke();
+        ctx.strokeStyle=`rgba(196,75,255,${a*0.6})`;
+        ctx.beginPath();
+        ctx.moveTo(-r*0.7,0);ctx.lineTo(r*0.7,0);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0,-r*0.7);ctx.lineTo(0,r*0.7);
+        ctx.stroke();
+      }
+      ctx.shadowBlur=0;
+      ctx.restore();
+    }
+  }
+  isDead(){
+    return this.parts.every(p=>p.life<=0);
+  }
+}
+
+// Track active divider hovers
+const dividerWraps=document.querySelectorAll('.divider-wrap');
+dividerWraps.forEach(dw=>{
+  let burstInterval;
+  dw.addEventListener('mouseenter',e=>{
+    const rect=dw.getBoundingClientRect();
+    const cy=rect.top+rect.height/2;
+    activeDividers.push({y:cy,wrap:dw});
+    // Continuous burst while hovering
+    if(!burstInterval){
+      let burstCount=0;
+      burstInterval=setInterval(()=>{
+        if(dividerParticles.length<MAX_DP){
+          const r=dw.getBoundingClientRect();
+          const cx=mouse.x;
+          const cy=r.top+r.height/2;
+          const burst=new DividerBurst(
+            cx+(Math.random()-0.5)*60,
+            cy
+          );
+          dividerParticles.push(burst);
+          burstCount++;
+        }
+      },50);
+    }
+  });
+  dw.addEventListener('mouseleave',()=>{
+    activeDividers=activeDividers.filter(d=>d.wrap!==dw);
+    if(burstInterval){clearInterval(burstInterval);burstInterval=null;}
+  });
+});
+
+function updateDividerParticles(){
+  for(let i=dividerParticles.length-1;i>=0;i--){
+    dividerParticles[i].update();
+    if(dividerParticles[i].isDead()){
+      dividerParticles.splice(i,1);
+    }
+  }
+}
+
+function drawDividerParticles(){
+  for(const bp of dividerParticles)bp.draw();
+}
+
+// ═══════ SECCIÓN 17: Loop de animación canvas ═══════
+function animateCanvas(){
+  ctx.clearRect(0,0,W,H);
+
+  // Smooth sigil rotation
+  sigilRot+=(targetSigilRot-sigilRot)*0.05;
+  const sigil=document.getElementById('sigil');
+  if(sigil)sigil.style.transform=`rotate(${sigilRot}deg)`;
+
+  spawnParticles();
+  updateParticles();
+  drawParticles();
+  updateDividerParticles();
+  drawDividerParticles();
+
+  // Draw luminous lines from mouse to nearby particles
+  for(const p of particles){
+    const dx=p.x-mouse.x;
+    const dy=p.y-mouse.y;
+    const d=Math.sqrt(dx*dx+dy*dy);
+    if(d<200){
+      const a=(1-d/200)*0.15;
+      ctx.save();
+      ctx.shadowColor=`rgba(196,75,255,${a*0.5})`;
+      ctx.shadowBlur=8;
+      ctx.strokeStyle=`rgba(196,75,255,${a})`;
+      ctx.lineWidth=0.6;
+      ctx.beginPath();
+      ctx.moveTo(mouse.x,mouse.y);
+      ctx.lineTo(p.x,p.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+
+  requestAnimationFrame(animateCanvas);
+}
+animateCanvas();
+</script>
+<script>
+document.querySelectorAll('model-viewer').forEach(function(mv) {
+  mv.addEventListener('load', function() {
+    var names = mv.availableAnimations;
+    if (names && names.length > 0) {
+      mv.animationName = names[0];
+      setTimeout(function() { mv.play?.(); }, 100);
+    }
+  });
+});
+</script>

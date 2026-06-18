@@ -1,0 +1,54 @@
+<div class="game-card border-[0.5px] border-[rgba(255,45,138,0.2)] bg-[#0e0318] p-[42px] grid grid-cols-2 gap-6 items-center relative overflow-hidden rounded-[2px] [transform-style:preserve-3d] [perspective:800px]" data-tilt>
+  <div class="flex flex-col">
+    <div class="game-ley font-cinzel text-[9px] tracking-[0.3em] text-[#ff85c0] flex items-center gap-[9px] mb-[22px] uppercase">
+      <span class="pulse-dot w-[6px] h-[6px] rounded-full bg-[#ff2d8a] border border-[rgba(255,133,192,0.5)] animate-[breathe_1.8s_infinite]"></span>
+      In development — UE5
+    </div>
+    <img src="/logo_con_fondo.png" alt="Ritual Of Awakening" class="w-[200px] h-auto mb-4 self-center" />
+    <p class="text-[14px] text-[#c9a8e8] leading-[1.85] mb-7 font-light">
+      Ritual of Awakening is a narrative-driven game where players follow a young woman on a symbolic journey beyond the visible world. Through atmospheric environments, environmental puzzles, and encounters with feminine alien entities, players uncover hidden layers of consciousness and reality. Instead of focusing on combat, the game emphasizes exploration, interpretation, and immersive storytelling, creating a unique experience that blends esoteric symbolism, mystical world-building, and personal transformation.
+    </p>
+    <div class="game-stats flex gap-5 mb-7">
+      <div class="sbox border-[0.5px] border-[rgba(255,45,138,0.15)] p-3 px-4 bg-[rgba(255,45,138,0.04)] rounded-[2px] min-w-[68px]">
+        <span class="sval font-cinzel text-[14px] font-semibold text-[#ff2d8a] block mb-1">UE5</span>
+        <span class="skey font-cinzel text-[9px] text-[#9b72c0] tracking-[0.15em] uppercase">Engine</span>
+      </div>
+      <div class="sbox border-[0.5px] border-[rgba(255,45,138,0.15)] p-3 px-4 bg-[rgba(255,45,138,0.04)] rounded-[2px] min-w-[68px]">
+        <span class="sval font-cinzel text-[14px] font-semibold text-[#ff2d8a] block mb-1">Solo</span>
+        <span class="skey font-cinzel text-[9px] text-[#9b72c0] tracking-[0.15em] uppercase">Team</span>
+      </div>
+      <div class="sbox border-[0.5px] border-[rgba(255,45,138,0.15)] p-3 px-4 bg-[rgba(255,45,138,0.04)] rounded-[2px] min-w-[68px]">
+        <span class="sval font-cinzel text-[14px] font-semibold text-[#ff2d8a] block mb-1">2026</span>
+        <span class="skey font-cinzel text-[9px] text-[#9b72c0] tracking-[0.15em] uppercase">Start</span>
+      </div>
+    </div>
+    <div class="prog-lbl flex justify-between mb-2">
+      <span class="font-cinzel text-[9px] text-[#9b72c0] tracking-[0.12em] uppercase">Progress</span>
+      <span class="font-cinzel text-[9px] text-[#ff2d8a] tracking-[0.12em] uppercase">35%</span>
+    </div>
+    <div class="prog-track h-[1px] bg-[rgba(255,45,138,0.12)]">
+      <div class="prog-fill h-[1px] w-[35%] bg-[#ff2d8a] relative">
+        <span class="absolute right-[-5px] top-[-5px] text-[8px] text-[#ff2d8a]">◆</span>
+      </div>
+    </div>
+  </div>
+  <div class="game-vis bg-[#07010f] border-[0.5px] border-[rgba(255,45,138,0.12)] aspect-[16/9] flex flex-col items-center justify-center gap-[18px] relative overflow-hidden rounded-[2px]">
+    <video
+      src="/Ritual_Of_Awakening_Trailer_Demo_pag_web.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute top-0 left-0 w-full h-full object-cover"
+      style="z-index:0"
+    ></video>
+    <div class="ue-crest font-cinzel text-[9px] tracking-[0.22em] text-[rgba(255,133,192,0.5)] border-[0.5px] border-[rgba(255,45,138,0.2)] px-[14px] py-[5px] uppercase relative z-[1] rounded-[2px]">Unreal Engine 5</div>
+    <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] top-3 left-[14px]">◈ UE5.4</span>
+    <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] bottom-3 right-[14px]">◈ Alpha</span>
+  </div>
+</div>
+
+<script>
+import { initTiltEffect } from "../scripts/tilt-effect";
+initTiltEffect();
+</script>

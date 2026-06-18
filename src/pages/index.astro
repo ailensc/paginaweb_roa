@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Starfield from "../components/Starfield.astro";
+import SacredGeometry from "../components/SacredGeometry.astro";
+import Navbar from "../components/Navbar.astro";
+import Hero from "../components/Hero.astro";
+import CharacterGrid from "../components/CharacterGrid.astro";
+import GameSection from "../components/GameSection.astro";
+import SkillsGrid from "../components/SkillsGrid.astro";
+import Divider from "../components/Divider.astro";
+import Footer from "../components/Footer.astro";
+import ContactPanel from "../components/ContactPanel.astro";
+import AboutPanel from "../components/AboutPanel.astro";
+---
+
+<BaseLayout>
+  <div class="rune-bg"></div>
+  <Starfield />
+  <SacredGeometry />
+  <div class="wrap relative z-[2]">
+    <Navbar />
+    <Hero />
+    <CharacterGrid />
+    <section id="ue5-project" class="px-9 py-[60px] border-b border-[rgba(196,75,255,0.07)]">
+      <div class="sec-hd flex justify-between items-center mb-8">
+        <span class="sec-lbl font-cinzel text-[10px] text-[#d688ff] tracking-[0.25em] uppercase flex items-center gap-[10px]">
+          <span class="block w-5 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+          04 · Game in development
+        </span>
+        <span class="sec-n text-[12px] text-[#9b72c0] tracking-[0.1em] font-cinzel">UE5</span>
+      </div>
+      <GameSection />
+    </section>
+    <section id="skills" class="px-9 py-[56px] border-b border-[rgba(196,75,255,0.07)]">
+      <div class="sec-hd flex justify-between items-center mb-8">
+        <span class="sec-lbl font-cinzel text-[10px] text-[#d688ff] tracking-[0.25em] uppercase flex items-center gap-[10px]">
+          <span class="block w-5 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+          05 · Tools & software
+        </span>
+      </div>
+      <SkillsGrid />
+    </section>
+    <Divider />
+    <Footer />
+  </div>
+  <ContactPanel />
+  <AboutPanel />
+</BaseLayout>

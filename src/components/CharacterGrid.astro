@@ -1,0 +1,74 @@
+---
+import CharacterCard from "./CharacterCard.astro";
+---
+
+<div class="game-section flex flex-col justify-center border-b border-[rgba(196,75,255,0.07)] px-9 pb-[60px]" id="characters">
+  <div class="sec-hd flex justify-between items-center mb-8">
+    <span class="sec-lbl font-cinzel text-[10px] text-[#d688ff] tracking-[0.25em] uppercase flex items-center gap-[10px]">
+      <span class="block w-5 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+      03 · Interactive 3D character
+    </span>
+  </div>
+  <div class="flex items-stretch justify-center gap-4 min-h-0 px-4">
+    <CharacterCard
+      src="/models/idle_homuncula.glb"
+      alt="Homúncula"
+      title="Homúncula"
+      meta="ZBrush · Blender · 2024"
+      tag="Character"
+      tagClass="text-[#d4a0ff] border-[rgba(180,100,255,0.3)]"
+      animationName="All"
+      autoRotate={true}
+      cameraOrbit="0deg 75deg 1m"
+      exposure="2"
+      minHeight="480px"
+      stats={[
+        { label: "Mind", value: 100 },
+        { label: "Strength", value: 40 },
+        { label: "Agility", value: 25 },
+      ]}
+    />
+    <CharacterCard
+      src="/models/kaliza_idle.glb"
+      alt="Kaliza"
+      title="Kaliza"
+      meta="ZBrush · Blender · 2024"
+      tag="Character"
+      tagClass="text-[#d4a0ff] border-[rgba(180,100,255,0.3)]"
+      animationName="Armature|mixamo.com|Layer0"
+      autoRotate={true}
+      cameraOrbit="0deg 75deg 1.5m"
+      exposure="1.2"
+      minHeight="480px"
+      stats={[
+        { label: "Mind", value: 70 },
+        { label: "Strength", value: 85 },
+        { label: "Agility", value: 60 },
+      ]}
+    />
+    <CharacterCard
+      src="/models/ormix_idle.glb"
+      alt="Ormix"
+      title="Ormix"
+      meta="ZBrush · Blender · 2024"
+      tag="Character"
+      tagClass="text-[#d4a0ff] border-[rgba(180,100,255,0.3)]"
+      animationName="All"
+      autoRotate={true}
+      exposure="2"
+      minHeight="480px"
+      stats={[
+        { label: "Mind", value: 55 },
+        { label: "Strength", value: 60 },
+        { label: "Agility", value: 90 },
+      ]}
+    />
+  </div>
+</div>
+
+<script>
+import { initTiltEffect } from "../scripts/tilt-effect";
+import { initModelViewerSetup } from "../scripts/model-viewer-setup";
+initTiltEffect();
+initModelViewerSetup();
+</script>

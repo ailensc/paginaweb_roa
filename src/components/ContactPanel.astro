@@ -1,0 +1,186 @@
+<div id="contact-panel" class="fixed inset-0 z-[200] hidden">
+  <canvas id="contact-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="mix-blend-mode:screen"></canvas>
+  <div id="contact-overlay" class="absolute inset-0 bg-[rgba(7,1,15,0.92)] backdrop-blur-[4px]"></div>
+  <div class="relative z-[201] w-full h-full flex items-center justify-center p-8 opacity-0 translate-y-8 transition-all duration-700 ease-out" id="contact-content">
+    <div class="w-full max-w-[500px]">
+      <div class="flex justify-between items-center mb-8">
+        <h3 class="font-cinzel text-[14px] text-[#d688ff] tracking-[0.25em] uppercase flex items-center gap-[10px]">
+          <span class="block w-5 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+          Contact
+        </h3>
+        <button id="contact-close" class="text-[#9b72c0] text-[22px] cursor-pointer hover:text-[#ff85c0] transition-colors border-none bg-transparent">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+      <form action="mailto:ailens.c.studio@gmail.com" method="post" enctype="text/plain" class="flex flex-col gap-5">
+        <div>
+          <label class="font-cinzel text-[9px] text-[#9b72c0] tracking-[0.2em] uppercase block mb-2">Your name</label>
+          <input type="text" name="name" required class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(196,75,255,0.12)] rounded-[2px] px-4 py-3 text-[13px] text-[#f8eaff] outline-none transition-colors duration-200 placeholder-[#9b72c0] focus:border-[rgba(255,45,138,0.3)]" placeholder="Name" />
+        </div>
+        <div>
+          <label class="font-cinzel text-[9px] text-[#9b72c0] tracking-[0.2em] uppercase block mb-2">Your email</label>
+          <input type="email" name="email" required class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(196,75,255,0.12)] rounded-[2px] px-4 py-3 text-[13px] text-[#f8eaff] outline-none transition-colors duration-200 placeholder-[#9b72c0] focus:border-[rgba(255,45,138,0.3)]" placeholder="email@example.com" />
+        </div>
+        <div>
+          <label class="font-cinzel text-[9px] text-[#9b72c0] tracking-[0.2em] uppercase block mb-2">Message</label>
+          <textarea name="message" rows="5" required class="w-full bg-[rgba(255,255,255,0.03)] border border-[rgba(196,75,255,0.12)] rounded-[2px] px-4 py-3 text-[13px] text-[#f8eaff] outline-none transition-colors duration-200 placeholder-[#9b72c0] focus:border-[rgba(255,45,138,0.3)] resize-none" placeholder="Write your message..."></textarea>
+        </div>
+        <button type="submit" class="btn-rose bg-transparent border-[0.5px] border-[#ff2d8a] text-[#ff85c0] px-[26px] py-[11px] font-cinzel text-[11px] tracking-[0.18em] uppercase cursor-pointer transition-all duration-250 rounded-[2px] relative self-start hover:bg-[rgba(255,45,138,0.1)]">Send message</button>
+      </form>
+      <div class="mt-8 pt-6 border-t border-[rgba(196,75,255,0.08)]">
+        <p class="text-[12px] text-[#9b72c0] flex items-center gap-2">
+          <i class="ti ti-mail text-[#ff2d8a]"></i> ailens.c.studio@gmail.com
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #contact-panel.opening #contact-content {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @keyframes mystic-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(196,75,255,0.05), 0 0 60px rgba(255,45,138,0.03); }
+    50% { box-shadow: 0 0 40px rgba(196,75,255,0.12), 0 0 80px rgba(255,45,138,0.06); }
+  }
+</style>
+
+<script>
+const panel = document.getElementById("contact-panel");
+const overlay = document.getElementById("contact-overlay");
+const closeBtn = document.getElementById("contact-close");
+const content = document.getElementById("contact-content");
+const openBtns = document.querySelectorAll("[data-open-contact]");
+
+let animId = null;
+const particles = [];
+
+function openPanel() {
+  panel?.classList.remove("hidden");
+  setTimeout(() => panel?.classList.add("opening"), 30);
+  document.body.style.overflow = "hidden";
+  initContactCanvas();
+}
+function closePanel() {
+  panel?.classList.remove("opening");
+  panel?.classList.add("hidden");
+  document.body.style.overflow = "";
+  stopContactCanvas();
+}
+
+openBtns.forEach((btn) => btn.addEventListener("click", openPanel));
+closeBtn?.addEventListener("click", closePanel);
+overlay?.addEventListener("click", closePanel);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closePanel();
+});
+
+class SGparticle {
+  constructor(w, h) {
+    this.w = w; this.h = h;
+    this.reset();
+  }
+  reset() {
+    this.x = Math.random() * this.w;
+    this.y = Math.random() * this.h;
+    this.size = 8 + Math.random() * 14;
+    this.angle = Math.random() * Math.PI * 2;
+    this.rotSpeed = (Math.random() - 0.5) * 0.03;
+    this.phase = Math.random() * Math.PI * 2;
+    this.type = Math.floor(Math.random() * 3);
+    this.opacity = 0.5 + Math.random() * 0.4;
+  }
+  update(mx, my) {
+    const dx = mx - this.x, dy = my - this.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    if (dist > 30) {
+      this.x += dx * 0.02;
+      this.y += dy * 0.02;
+    } else {
+      this.x += Math.cos(this.angle + this.phase) * 0.3;
+      this.y += Math.sin(this.angle + this.phase) * 0.3;
+    }
+    this.angle += this.rotSpeed;
+  }
+  draw(ctx) {
+    const now = Date.now() * 0.002;
+    const pulse = 0.7 + 0.3 * Math.sin(now + this.phase);
+    const a = this.opacity * pulse;
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.shadowColor = this.type === 0 ? "rgba(196,75,255,0.4)" : this.type === 1 ? "rgba(255,45,138,0.4)" : "rgba(214,136,255,0.4)";
+    ctx.shadowBlur = 12 + Math.sin(now + this.phase) * 4;
+    const r = this.size;
+    ctx.lineWidth = 0.8 + Math.sin(now + this.phase) * 0.3;
+    if (this.type === 0) {
+      ctx.strokeStyle = `rgba(196,75,255,${a})`;
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const ang = (Math.PI / 3) * i - Math.PI / 6;
+        const px = Math.cos(ang) * r, py = Math.sin(ang) * r;
+        i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.closePath(); ctx.stroke();
+      ctx.fillStyle = `rgba(196,75,255,${a * 0.04})`; ctx.fill();
+    } else if (this.type === 1) {
+      ctx.strokeStyle = `rgba(255,45,138,${a})`;
+      ctx.beginPath();
+      ctx.moveTo(0, -r); ctx.lineTo(r * 0.8, 0); ctx.lineTo(0, r); ctx.lineTo(-r * 0.8, 0);
+      ctx.closePath(); ctx.stroke();
+      ctx.fillStyle = `rgba(255,45,138,${a * 0.04})`; ctx.fill();
+    } else {
+      ctx.strokeStyle = `rgba(214,136,255,${a})`;
+      ctx.beginPath(); ctx.arc(0, 0, r, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = `rgba(255,45,138,${a * 0.4})`;
+      ctx.beginPath(); ctx.arc(0, 0, r * 0.65, 0, Math.PI * 2); ctx.stroke();
+      ctx.fillStyle = `rgba(255,133,192,${a * 0.6})`;
+      ctx.shadowBlur = 20; ctx.beginPath(); ctx.arc(0, 0, 2, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+    ctx.restore();
+  }
+}
+
+function initContactCanvas() {
+  const canvas = document.getElementById("contact-canvas");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  let W = canvas.width = window.innerWidth;
+  let H = canvas.height = window.innerHeight;
+  const mouse = { x: W / 2, y: H / 2 };
+  for (let i = 0; i < 40; i++) particles.push(new SGparticle(W, H));
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  window.addEventListener("resize", resize);
+  document.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i]; p.update(mouse.x, mouse.y); p.draw(ctx);
+      if (p.x < -100 || p.x > W + 100 || p.y < -100 || p.y > H + 100) p.reset();
+    }
+    for (const p of particles) {
+      const dx = p.x - mouse.x, dy = p.y - mouse.y;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 200) {
+        const a = (1 - d / 200) * 0.15;
+        ctx.save();
+        ctx.shadowColor = `rgba(196,75,255,${a * 0.5})`;
+        ctx.shadowBlur = 8;
+        ctx.strokeStyle = `rgba(196,75,255,${a})`;
+        ctx.lineWidth = 0.6;
+        ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(p.x, p.y); ctx.stroke();
+        ctx.restore();
+      }
+    }
+    animId = requestAnimationFrame(animate);
+  }
+  animate();
+}
+function stopContactCanvas() {
+  if (animId) { cancelAnimationFrame(animId); animId = null; }
+  particles.length = 0;
+}
+</script>

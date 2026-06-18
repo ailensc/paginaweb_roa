@@ -1,0 +1,79 @@
+---
+export interface Stat {
+  label: string;
+  value: number;
+}
+
+export interface Props {
+  src?: string;
+  alt: string;
+  title: string;
+  meta: string;
+  tag: string;
+  tagClass: string;
+  animationName?: string;
+  autoRotate?: boolean;
+  cameraOrbit?: string;
+  exposure?: string;
+  minHeight?: string;
+  placeholder?: boolean;
+  stats?: Stat[];
+}
+const { src, alt, title, meta, tag, tagClass, animationName, autoRotate, cameraOrbit, exposure, minHeight, placeholder, stats } = Astro.props;
+---
+
+<div
+  class="wcard char-card bg-[#0e0318] border-[0.5px] border-[rgba(196,75,255,0.08)] relative overflow-hidden cursor-pointer transition-border-color duration-250 [transform-style:preserve-3d] [perspective:800px] hover:border-[rgba(255,45,138,0.35)]"
+  style={`flex:1 1 0;min-width:0;grid-row:unset;min-height:${minHeight ?? '320px'};height:auto`}
+  data-tilt
+>
+  {placeholder ? (
+    <div class="wcard-inner absolute top-0 left-0 right-0 bottom-0 flex flex-col items-center justify-center gap-[14px]" style="pointer-events:none;z-index:1">
+      <div class="wcard-ico w-12 h-12 border-[0.5px] border-[rgba(196,75,255,0.2)] rounded-full flex items-center justify-center text-[rgba(196,75,255,0.3)] text-[20px] transition-all duration-400 relative [.wcard:hover_&]:border-[rgba(255,45,138,0.4)] [.wcard:hover_&]:text-[#ff85c0] [.wcard:hover_&]:shadow-[0_0_30px_rgba(255,45,138,0.08)]">
+        <i class="ti ti-plus" aria-hidden="true"></i>
+      </div>
+      <span class="wcard-ph font-cinzel text-[9px] text-[rgba(240,214,255,0.12)] tracking-[0.2em] uppercase">New character</span>
+    </div>
+  ) : (
+    <model-viewer
+      src={src}
+      alt={alt}
+      {...(autoRotate ? { "auto-rotate": "" } : {})}
+      rotation-per-second="30deg"
+      camera-controls
+      interaction-prompt="none"
+      loading="eager"
+      reveal="auto"
+      exposure={exposure ?? "2"}
+      shadow-intensity="1"
+      shadow-softness="0.5"
+      tone-mapping="neutral"
+      animation-name={animationName ?? "All"}
+      animation-crossfade-duration="0.5"
+      style={`background:rgba(255,255,255,0.03);min-height:${minHeight ?? '320px'}`}
+    ></model-viewer>
+  )}
+
+  {stats && (
+    <div class="absolute bottom-16 left-4 z-[5] flex flex-col gap-2">
+      {stats.map((stat) => (
+        <div class="flex flex-col gap-[3px]">
+          <div class="flex justify-between items-center gap-3">
+            <span class="font-cinzel text-[11px] text-[#9b72c0] tracking-[0.15em] uppercase">{stat.label}</span>
+            <span class="font-cinzel text-[11px] text-[#ff85c0] tracking-[0.1em]">{stat.value}%</span>
+          </div>
+          <div class="w-[100px] h-[1px] bg-[rgba(255,45,138,0.12)]">
+            <div class="h-full bg-gradient-to-r from-[#ff2d8a] to-[#c44bff]" style={`width:${stat.value}%`}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+
+  <div class="petal-tl"></div><div class="petal-br"></div>
+  <div class="wcard-info p-4 relative z-[2]">
+    <span class={"wtag font-cinzel text-[9px] tracking-[0.2em] uppercase px-2 py-[3px] border-[0.5px] border-solid inline-block mb-[6px] rounded-[2px] " + tagClass}>{tag}</span>
+    <div class="wtitle text-[14px] font-medium text-[#f8eaff] mb-[3px]">{title}</div>
+    <div class="wmeta text-[11px] text-[#9b72c0] font-cinzel tracking-[0.08em]">{meta}</div>
+  </div>
+</div>
