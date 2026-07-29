@@ -14,5 +14,6 @@ export function initModelViewerSetup(): void {
         }, 100);
       }
     });
+
   });
 }

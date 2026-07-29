@@ -1,0 +1,321 @@
+<div id="psychedelic-modal" class="fixed inset-0 z-[300] hidden">
+  <div class="relative z-[301] w-full h-full flex flex-col">
+    <div id="video-section" class="relative w-full flex-shrink-0 overflow-hidden transition-all duration-700 ease-in-out" style="height:100%">
+      <div id="psychedelic-overlay" class="absolute inset-0 bg-[#07010f]"></div>
+      <video
+        id="psychedelic-video"
+        src="/Psycodelic_homun.mp4"
+        playsinline
+        muted
+        class="absolute top-0 left-0 w-full h-full object-contain"
+        style="background:#000"
+      ></video>
+
+      <div class="absolute bottom-0 left-0 right-0 h-[280px] bg-gradient-to-t from-[rgba(7,1,15,0.95)] via-[rgba(7,1,15,0.6)] to-transparent pointer-events-none"></div>
+
+      <div class="absolute top-6 left-6 w-[40px] h-[40px] border-t border-l border-[rgba(255,45,138,0.3)]"></div>
+      <div class="absolute top-6 right-6 w-[40px] h-[40px] border-t border-r border-[rgba(255,45,138,0.3)]"></div>
+      <div class="absolute bottom-6 left-6 w-[40px] h-[40px] border-b border-l border-[rgba(255,45,138,0.3)]"></div>
+      <div class="absolute bottom-6 right-6 w-[40px] h-[40px] border-b border-r border-[rgba(255,45,138,0.3)]"></div>
+
+      <div class="absolute top-8 left-1/2 -translate-x-1/2 font-cinzel text-[10px] tracking-[0.35em] text-[rgba(255,133,192,0.25)] uppercase flex items-center gap-3">
+        <span class="text-[6px] text-[rgba(196,75,255,0.3)]">◈</span>
+        the game
+        <span class="text-[6px] text-[rgba(196,75,255,0.3)]">◈</span>
+      </div>
+
+      <div id="psychedelic-buttons" class="absolute bottom-16 left-1/2 -translate-x-1/2 z-[302] flex items-center gap-16 opacity-0 transition-opacity duration-1000 pointer-events-none">
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-[1px] h-6 bg-gradient-to-b from-transparent to-[rgba(255,45,138,0.3)]"></div>
+          <button id="btn-play-again" class="group relative font-cinzel text-[13px] tracking-[0.25em] uppercase w-[130px] py-3 bg-transparent border-[0.5px] border-[rgba(255,45,138,0.4)] text-[#ff85c0] cursor-pointer transition-all duration-300 rounded-[2px] hover:bg-[rgba(255,45,138,0.08)] hover:border-[#ff2d8a] hover:shadow-[0_0_30px_rgba(255,45,138,0.12)]">
+            <span class="relative z-[1]">PLAY</span>
+            <span class="absolute left-1/2 -translate-x-1/2 -top-[5px] w-[calc(100%+10px)] h-[0.5px] bg-gradient-to-r from-transparent via-[rgba(255,45,138,0.3)] to-transparent"></span>
+            <span class="absolute left-1/2 -translate-x-1/2 -bottom-[5px] w-[calc(100%+10px)] h-[0.5px] bg-gradient-to-r from-transparent via-[rgba(255,45,138,0.3)] to-transparent"></span>
+          </button>
+          <span class="font-cinzel text-[7px] tracking-[0.3em] text-[rgba(196,75,255,0.2)] uppercase">Continue</span>
+        </div>
+
+        <div class="w-[1px] h-10 bg-[rgba(196,75,255,0.12)]"></div>
+
+        <div class="flex flex-col items-center gap-3">
+          <div class="w-[1px] h-6 bg-gradient-to-b from-transparent to-[rgba(196,75,255,0.3)]"></div>
+          <button id="btn-quit" class="group relative font-cinzel text-[13px] tracking-[0.25em] uppercase w-[130px] py-3 bg-transparent border-[0.5px] border-[rgba(196,75,255,0.3)] text-[#d688ff] cursor-pointer transition-all duration-300 rounded-[2px] hover:bg-[rgba(196,75,255,0.06)] hover:border-[#c44bff] hover:shadow-[0_0_30px_rgba(196,75,255,0.1)]">
+            <span class="relative z-[1]">QUIT</span>
+            <span class="absolute left-1/2 -translate-x-1/2 -top-[5px] w-[calc(100%+10px)] h-[0.5px] bg-gradient-to-r from-transparent via-[rgba(196,75,255,0.25)] to-transparent"></span>
+            <span class="absolute left-1/2 -translate-x-1/2 -bottom-[5px] w-[calc(100%+10px)] h-[0.5px] bg-gradient-to-r from-transparent via-[rgba(196,75,255,0.25)] to-transparent"></span>
+          </button>
+          <span class="font-cinzel text-[7px] tracking-[0.3em] text-[rgba(196,75,255,0.2)] uppercase">Exit</span>
+        </div>
+      </div>
+
+      <div id="psychedelic-loading" class="absolute inset-0 z-[303] flex flex-col items-center justify-center gap-4 pointer-events-none transition-opacity duration-500">
+        <div class="w-[40px] h-[40px] border border-[rgba(255,45,138,0.2)] flex items-center justify-center">
+          <div class="w-[20px] h-[20px] border border-[rgba(196,75,255,0.3)] animate-spin" style="animation-duration:3s"></div>
+        </div>
+        <span class="font-cinzel text-[8px] tracking-[0.4em] text-[rgba(255,133,192,0.3)] uppercase">Loading</span>
+      </div>
+    </div>
+
+    <div id="info-section" class="flex-1 bg-gradient-to-b from-[#0e0318] to-[#07010f] overflow-y-auto hidden">
+      <div class="p-8 md:p-12 lg:p-16 max-w-4xl mx-auto">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="block w-6 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+          <span class="font-cinzel text-[10px] tracking-[0.25em] text-[#d688ff] uppercase">Ascend Through Consciousness</span>
+        </div>
+        <h2 class="font-cinzel text-[28px] md:text-[36px] font-semibold text-[#f8eaff] leading-[1.2] mb-4 tracking-[0.04em]">
+          Ritual of <span class="text-[#ff85c0]">Awakening</span>
+        </h2>
+        <div class="w-10 h-[0.5px] bg-gradient-to-r from-[#ff2d8a] to-[#c44bff] mb-5"></div>
+        <p class="text-[14px] text-[#c9a8e8] leading-[1.85] font-light mb-8">
+          A narrative-driven journey where each level represents a layer of reality to unlock. Guided by ethereal alien entities, you must navigate through symbolic realms — from the densest matter to the most subtle dimensions of awareness.
+        </p>
+
+        <div class="flex items-center gap-3 mb-6">
+          <span class="block w-6 h-[0.5px] bg-[#c44bff] opacity-50"></span>
+          <span class="font-cinzel text-[10px] tracking-[0.25em] text-[#d688ff] uppercase">Alien Avatar per Levels</span>
+        </div>
+        <div class="mb-6 relative w-full" id="spheres-container">
+          <img src="/Crakk_kabalah.jpg?v=3" alt="Crakk Kabalah" class="w-full rounded-[2px]" style="max-height:800px;object-fit:contain" />
+          <div class="absolute inset-0 z-[5] pointer-events-none" id="spheres-overlay"></div>
+        </div>
+
+        <div class="border-t border-[rgba(196,75,255,0.08)] pt-6">
+          <p class="text-[12px] text-[#9b72c0] leading-[1.8] italic">"Each guide is a version of yourself you have yet to meet."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #psychedelic-modal.opening {
+    animation: psychoFadeIn 0.4s ease-out;
+  }
+  #psychedelic-modal:not(.hidden) #psychedelic-buttons.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #psychedelic-modal:not(.hidden) #psychedelic-buttons.show button {
+    animation: btnAppear 0.5s ease-out both;
+  }
+  #psychedelic-modal:not(.hidden) #psychedelic-buttons.show button:last-child {
+    animation-delay: 0.15s;
+  }
+  .sphere-dot {
+    backdrop-filter: blur(2px);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .sphere-dot:hover {
+    backdrop-filter: blur(4px);
+  }
+  .sphere-tooltip {
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  @keyframes psychoFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes btnAppear {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+const modal = document.getElementById("psychedelic-modal");
+const openBtn = document.getElementById("psychedelic-btn");
+const video = document.getElementById("psychedelic-video");
+const videoSection = document.getElementById("video-section");
+const infoSection = document.getElementById("info-section");
+const buttonsContainer = document.getElementById("psychedelic-buttons");
+const playAgainBtn = document.getElementById("btn-play-again");
+const quitBtn = document.getElementById("btn-quit");
+const loadingEl = document.getElementById("psychedelic-loading");
+let videoEnded = false;
+let revealed = false;
+let videoInitialHeight = 0;
+
+function openModal() {
+  videoEnded = false;
+  revealed = false;
+  videoSection.style.height = "100%";
+  infoSection.classList.add("hidden");
+  loadingEl.style.opacity = "1";
+  modal.classList.remove("hidden");
+  setTimeout(() => modal.classList.add("opening"), 10);
+  document.body.style.overflow = "hidden";
+  video.currentTime = 0;
+  video.play().catch(() => {});
+  video.addEventListener("playing", function onPlaying() {
+    loadingEl.style.opacity = "0";
+    buttonsContainer.classList.add("show");
+    video.removeEventListener("playing", onPlaying);
+  });
+}
+
+function closeModal() {
+  modal.classList.remove("opening");
+  modal.classList.add("hidden");
+  document.body.style.overflow = "";
+  video.pause();
+  video.currentTime = 0;
+  buttonsContainer.classList.remove("show");
+  videoSection.style.height = "100%";
+  infoSection.classList.add("hidden");
+  videoEnded = false;
+  revealed = false;
+}
+
+function revealInfo() {
+  revealed = true;
+  videoInitialHeight = Math.max(window.innerHeight * 0.45, 260);
+  videoSection.style.transition = "none";
+  videoSection.style.height = videoInitialHeight + "px";
+  infoSection.classList.remove("hidden");
+  infoSection.scrollTop = 0;
+  buttonsContainer.classList.remove("show");
+}
+
+infoSection.addEventListener("scroll", () => {
+  if (!revealed) return;
+  const scrollY = infoSection.scrollTop;
+  const newHeight = Math.max(0, videoInitialHeight - scrollY);
+  videoSection.style.height = newHeight + "px";
+});
+
+video.addEventListener("ended", () => {
+  videoEnded = true;
+});
+
+playAgainBtn.addEventListener("click", revealInfo);
+
+quitBtn.addEventListener("click", closeModal);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
+  if (e.key === "Enter" && !revealed) revealInfo();
+});
+
+openBtn?.addEventListener("click", openModal);
+
+// Interactive spheres overlaid on the image
+const spheresData = [
+  { x: 49.8, y: 84.3, initials: "K", level: "Nivel 1", name: "Kaliza", title: "La Percepción", desc: "El umbral entre lo visible y lo oculto. Segunda guía que revela las capas de la realidad." },
+  { x: 70.3, y: 53.3, initials: "A", level: "Nivel 2", name: "Aetheris", title: "La Fuente", desc: "El origen y el destino de toda conciencia. Octava guía que concede la visión completa." },
+  { x: 30.4, y: 52.9, initials: "O", level: "Nivel 3", name: "Ormix", title: "El Flujo", desc: "El movimiento entre dimensiones. Tercera guía que enseña a navegar los planos sutiles." },
+  { x: 70.0, y: 38.7, initials: "Z", level: "Nivel 4", name: "Zylara", title: "El Espejo", desc: "El reflejo del alma en el vacío. Cuarta guía que confronta las sombras internas." },
+  { x: 30.3, y: 38.6, initials: "V", level: " Nivel 5", name: "Vexel", title: "El Puente", desc: "La conexión entre mundos. Quinta guía que tiende el lazo entre lo humano y lo divino." },
+  { x: 69.9, y: 23.9, initials: "N", level: "Nivel 6", name: "Nexara", title: "El Vórtice", desc: "El centro de la espiral. Sexta guía que armoniza las energías del caos primordial." },
+  { x: 30.3, y: 24.2, initials: "O", level: "Nivel 7", name: "Ormix", title: "El Flujo", desc: "El movimiento entre dimensiones. Tercera guía que enseña a navegar los planos sutiles." },
+  { x: 50.1, y: 14.6, initials: "H", level: "Nivel 8", name: "Homuncula", title: "El Origen", desc: "El despertar de la conciencia en la materia densa. Primera guía en el camino de ascensión." },
+];
+
+const sphereColors = [
+  "rgba(255,45,138,0.4)", "rgba(196,75,255,0.4)", "rgba(255,133,192,0.4)", "rgba(180,90,255,0.4)",
+  "rgba(255,45,138,0.4)", "rgba(196,75,255,0.4)", "rgba(220,120,255,0.4)", "rgba(255,133,192,0.4)"
+];
+const sphereBgColors = [
+  "rgba(255,45,138,0.08)", "rgba(196,75,255,0.08)", "rgba(255,133,192,0.08)", "rgba(180,90,255,0.08)",
+  "rgba(255,45,138,0.08)", "rgba(196,75,255,0.08)", "rgba(220,120,255,0.08)", "rgba(255,133,192,0.08)"
+];
+const sphereTextColors = ["#ff85c0", "#d688ff", "#ff85c0", "#d688ff", "#ff85c0", "#d688ff", "#ff85c0", "#d688ff"];
+
+const overlay = document.getElementById("spheres-overlay");
+
+spheresData.forEach((item, i) => {
+  const dot = document.createElement("div");
+  dot.className = "sphere-dot absolute rounded-full flex items-center justify-center cursor-pointer transition-all duration-500 z-10";
+  dot.style.left = item.x + "%";
+  dot.style.top = item.y + "%";
+  dot.style.width = "48px";
+  dot.style.height = "48px";
+  dot.style.marginLeft = "-24px";
+  dot.style.marginTop = "-24px";
+  dot.style.border = `1.5px solid ${sphereColors[i]}`;
+  dot.style.background = `radial-gradient(circle at 35% 30%, rgba(255,255,255,0.08), transparent 65%), ${sphereBgColors[i]}`;
+  dot.style.pointerEvents = "auto";
+
+  const label = document.createElement("span");
+  label.className = "font-cinzel text-[13px] font-semibold pointer-events-none";
+  label.style.color = sphereTextColors[i];
+  label.textContent = item.initials;
+
+  let tooltipPos;
+  if (item.y > 80) {
+    tooltipPos = 'bottom';
+  } else if (item.x < 45) {
+    tooltipPos = 'left';
+  } else if (item.x > 55) {
+    tooltipPos = 'right';
+  } else {
+    tooltipPos = 'top';
+  }
+
+  const tooltip = document.createElement("div");
+  tooltip.className = "sphere-tooltip absolute opacity-0 invisible transition-all duration-300 pointer-events-none z-20";
+
+  const tooltipInner = `
+    <div class="bg-[#0e0318] border border-[rgba(255,45,138,0.25)] p-3 min-w-[180px] max-w-[210px] rounded-[2px] shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+      <div class="font-cinzel text-[8px] tracking-[0.2em] text-[rgba(255,133,192,0.5)] uppercase mb-1">${item.level}</div>
+      <div class="font-cinzel text-[11px] text-[#ff85c0] mb-0.5">${item.name}</div>
+      <div class="font-cinzel text-[8px] text-[#d688ff] mb-1.5">${item.title}</div>
+      <div class="text-[10px] text-[#9b72c0] leading-[1.6] font-light">${item.desc}</div>
+    </div>
+  `;
+
+  switch (tooltipPos) {
+    case 'right':
+      tooltip.style.left = "100%";
+      tooltip.style.top = "50%";
+      tooltip.style.marginLeft = "12px";
+      tooltip.style.transform = "translateY(-50%) translateX(-4px)";
+      break;
+    case 'left':
+      tooltip.style.right = "100%";
+      tooltip.style.top = "50%";
+      tooltip.style.marginRight = "12px";
+      tooltip.style.transform = "translateY(-50%) translateX(4px)";
+      break;
+    case 'bottom':
+      tooltip.style.top = "100%";
+      tooltip.style.left = "50%";
+      tooltip.style.marginTop = "12px";
+      tooltip.style.transform = "translateX(-50%) translateY(-4px)";
+      break;
+    default: // top
+      tooltip.style.bottom = "100%";
+      tooltip.style.left = "50%";
+      tooltip.style.marginBottom = "12px";
+      tooltip.style.transform = "translateX(-50%) translateY(4px)";
+  }
+
+  tooltip.innerHTML = tooltipInner;
+
+  dot.appendChild(label);
+  dot.appendChild(tooltip);
+  overlay.appendChild(dot);
+
+  dot.addEventListener("mouseenter", () => {
+    dot.style.transform = "scale(1.35)";
+    dot.style.borderColor = sphereTextColors[i];
+    dot.style.boxShadow = `0 0 25px ${sphereColors[i].replace("0.4", "0.25")}`;
+    tooltip.style.opacity = "1";
+    tooltip.style.visibility = "visible";
+    if (tooltipPos === 'right') tooltip.style.transform = "translateY(-50%) translateX(0)";
+    else if (tooltipPos === 'left') tooltip.style.transform = "translateY(-50%) translateX(0)";
+    else if (tooltipPos === 'bottom') tooltip.style.transform = "translateX(-50%) translateY(0)";
+    else tooltip.style.transform = "translateX(-50%) translateY(0)";
+  });
+  dot.addEventListener("mouseleave", () => {
+    dot.style.transform = "scale(1)";
+    dot.style.borderColor = sphereColors[i];
+    dot.style.boxShadow = "none";
+    tooltip.style.opacity = "0";
+    tooltip.style.visibility = "hidden";
+    if (tooltipPos === 'right') tooltip.style.transform = "translateY(-50%) translateX(-4px)";
+    else if (tooltipPos === 'left') tooltip.style.transform = "translateY(-50%) translateX(4px)";
+    else if (tooltipPos === 'bottom') tooltip.style.transform = "translateX(-50%) translateY(-4px)";
+    else tooltip.style.transform = "translateX(-50%) translateY(4px)";
+  });
+});
+</script>

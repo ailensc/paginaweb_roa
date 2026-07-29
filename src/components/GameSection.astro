@@ -1,3 +1,6 @@
+---
+import PsychedelicScreen from "./PsychedelicScreen.astro";
+---
 <div class="game-card border-[0.5px] border-[rgba(255,45,138,0.2)] bg-[#0e0318] p-[42px] grid grid-cols-2 gap-6 items-center relative overflow-hidden rounded-[2px] [transform-style:preserve-3d] [perspective:800px]" data-tilt>
   <div class="flex flex-col">
     <div class="game-ley font-cinzel text-[9px] tracking-[0.3em] text-[#ff85c0] flex items-center gap-[9px] mb-[22px] uppercase">
@@ -31,6 +34,9 @@
         <span class="absolute right-[-5px] top-[-5px] text-[8px] text-[#ff2d8a]">◆</span>
       </div>
     </div>
+    <button id="donate-btn" class="w-full mt-5 font-cinzel text-[10px] tracking-[0.18em] uppercase px-4 py-3 rounded-[2px] border-[0.5px] border-[rgba(255,215,0,0.3)] text-[#ffd700] bg-[rgba(255,215,0,0.04)] cursor-pointer transition-all duration-250 hover:bg-[rgba(255,215,0,0.12)] hover:border-[#ffd700] flex items-center justify-center gap-2" onclick="copyAddress()">
+      <i class="ti ti-coins text-[14px]"></i> Support the Project — USDT (ERC20)
+    </button>
   </div>
   <div class="game-vis bg-[#07010f] border-[0.5px] border-[rgba(255,45,138,0.12)] aspect-[16/9] flex flex-col items-center justify-center gap-[18px] relative overflow-hidden rounded-[2px]">
     <video
@@ -43,12 +49,27 @@
       style="z-index:0"
     ></video>
     <div class="ue-crest font-cinzel text-[9px] tracking-[0.22em] text-[rgba(255,133,192,0.5)] border-[0.5px] border-[rgba(255,45,138,0.2)] px-[14px] py-[5px] uppercase relative z-[1] rounded-[2px]">Unreal Engine 5</div>
+    <button id="psychedelic-btn" class="absolute bottom-3 left-1/2 -translate-x-1/2 z-[5] font-cinzel text-[9px] tracking-[0.18em] uppercase px-3 py-[5px] rounded-[2px] border-[0.5px] border-[rgba(255,45,138,0.3)] text-[#ff85c0] bg-[rgba(7,1,15,0.7)] cursor-pointer transition-all duration-250 hover:bg-[rgba(255,45,138,0.12)] hover:border-[#ff2d8a]">
+      <i class="ti ti-player-play-filled text-[10px] mr-1"></i> View Project
+    </button>
     <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] top-3 left-[14px]">◈ UE5.4</span>
     <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] bottom-3 right-[14px]">◈ Alpha</span>
   </div>
 </div>
 
+<PsychedelicScreen />
+
 <script>
 import { initTiltEffect } from "../scripts/tilt-effect";
 initTiltEffect();
+
+window.copyAddress = function() {
+  const address = "0x6b3ce65ff755fd7762f6bdb2ca752e9095c8e4ca";
+  navigator.clipboard.writeText(address).then(() => {
+    const btn = document.getElementById("donate-btn");
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<i class="ti ti-check text-[14px]"></i> Copied!';
+    setTimeout(() => { btn.innerHTML = orig; }, 2000);
+  });
+};
 </script>
