@@ -38,22 +38,27 @@ import PsychedelicScreen from "./PsychedelicScreen.astro";
       <i class="ti ti-coins text-[14px]"></i> Support the Project — USDT (ERC20)
     </button>
   </div>
-  <div class="game-vis bg-[#07010f] border-[0.5px] border-[rgba(255,45,138,0.12)] aspect-[16/9] flex flex-col items-center justify-center gap-[18px] relative overflow-hidden rounded-[2px]">
-    <video
-      src="/Ritual_Of_Awakening_Trailer_Demo_pag_web.mp4"
-      autoplay
-      muted
-      loop
-      playsinline
-      class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
-      style="z-index:0"
-    ></video>
-    <div class="ue-crest font-cinzel text-[9px] tracking-[0.22em] text-[rgba(255,133,192,0.5)] border-[0.5px] border-[rgba(255,45,138,0.2)] px-[14px] py-[5px] uppercase relative z-[1] rounded-[2px]">Unreal Engine 5</div>
-    <button id="psychedelic-btn" class="absolute bottom-3 left-1/2 -translate-x-1/2 z-[5] font-cinzel text-[9px] tracking-[0.18em] uppercase px-3 py-[5px] rounded-[2px] border-[0.5px] border-[rgba(255,45,138,0.3)] text-[#ff85c0] bg-[rgba(7,1,15,0.7)] cursor-pointer transition-all duration-250 hover:bg-[rgba(255,45,138,0.12)] hover:border-[#ff2d8a] touch-action:manipulation">
-      <i class="ti ti-player-play-filled text-[10px] mr-1"></i> View Project
+  <div class="game-vis relative flex flex-col">
+    <div class="relative aspect-[16/9] bg-[#07010f] border-[0.5px] border-[rgba(255,45,138,0.12)] flex items-center justify-center gap-[18px] overflow-hidden rounded-[2px]">
+      <video
+        src="/Ritual_Of_Awakening_Trailer_Demo_pag_web.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+        class="absolute top-0 left-0 w-full h-full object-cover pointer-events-none"
+        style="z-index:0"
+      ></video>
+      <div class="ue-crest font-cinzel text-[9px] tracking-[0.22em] text-[rgba(255,133,192,0.5)] border-[0.5px] border-[rgba(255,45,138,0.2)] px-[14px] py-[5px] uppercase relative z-[1] rounded-[2px]">Unreal Engine 5</div>
+      <button id="psychedelic-btn" class="lg:absolute lg:bottom-3 lg:left-1/2 lg:-translate-x-1/2 z-[5] font-cinzel text-[9px] tracking-[0.18em] uppercase px-3 py-[5px] rounded-[2px] border-[0.5px] border-[rgba(255,45,138,0.3)] text-[#ff85c0] bg-[rgba(7,1,15,0.7)] cursor-pointer transition-all duration-250 hover:bg-[rgba(255,45,138,0.12)] hover:border-[#ff2d8a] touch-action:manipulation">
+        <i class="ti ti-player-play-filled text-[10px] mr-1"></i> View Project
+      </button>
+      <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] top-3 left-[14px]">◈ UE5.4</span>
+      <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] bottom-3 right-[14px]">◈ Alpha</span>
+    </div>
+    <button id="psychedelic-btn-mobile" class="lg:hidden mt-3 w-full font-cinzel text-[10px] tracking-[0.18em] uppercase py-3 rounded-[2px] border-[0.5px] border-[rgba(255,45,138,0.3)] text-[#ff85c0] bg-[rgba(7,1,15,0.7)] cursor-pointer transition-all duration-250 hover:bg-[rgba(255,45,138,0.12)] hover:border-[#ff2d8a] flex items-center justify-center gap-2 touch-action:manipulation">
+      <i class="ti ti-player-play-filled text-[12px]"></i> View Project
     </button>
-    <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] top-3 left-[14px]">◈ UE5.4</span>
-    <span class="vis-rune absolute font-cinzel text-[9px] text-[rgba(255,45,138,0.12)] tracking-[0.15em] bottom-3 right-[14px]">◈ Alpha</span>
   </div>
 </div>
 

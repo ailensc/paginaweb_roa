@@ -196,7 +196,13 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !revealed) revealInfo();
 });
 
-openBtn?.addEventListener("click", openModal);
+[openBtn, document.getElementById("psychedelic-btn-mobile")].forEach((btn) => {
+  btn?.addEventListener("click", openModal);
+  btn?.addEventListener("touchend", (e) => {
+    e.preventDefault();
+    openModal();
+  });
+});
 
 // Interactive spheres overlaid on the image
 const spheresData = [
