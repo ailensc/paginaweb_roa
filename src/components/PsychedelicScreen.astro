@@ -79,9 +79,12 @@
           <div class="absolute inset-0 z-[5] pointer-events-none" id="spheres-overlay"></div>
         </div>
 
-        <div class="border-t border-[rgba(196,75,255,0.08)] pt-6">
+        <div class="border-t border-[rgba(196,75,255,0.08)] pt-6 mb-8">
           <p class="text-[12px] text-[#9b72c0] leading-[1.8] italic">"Each guide is a version of yourself you have yet to meet."</p>
         </div>
+        <button id="btn-back-main" class="font-cinzel text-[10px] tracking-[0.25em] uppercase px-6 py-3 w-full border-[0.5px] border-[rgba(196,75,255,0.3)] text-[#d688ff] bg-transparent cursor-pointer transition-all duration-300 rounded-[2px] hover:bg-[rgba(196,75,255,0.08)] hover:border-[#c44bff] flex items-center justify-center gap-2">
+          <i class="ti ti-arrow-left text-[14px]"></i> Back to Main
+        </button>
       </div>
     </div>
   </div>
@@ -180,6 +183,7 @@ video.addEventListener("ended", () => {
 playAgainBtn.addEventListener("click", revealInfo);
 
 quitBtn.addEventListener("click", closeModal);
+document.getElementById("btn-back-main")?.addEventListener("click", closeModal);
 
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
