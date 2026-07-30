@@ -239,9 +239,9 @@ spheresData.forEach((item, i) => {
   let tooltipPos;
   if (item.y > 80) {
     tooltipPos = 'bottom';
-  } else if (item.x < 45) {
+  } else if (window.innerWidth >= 640 && item.x < 45) {
     tooltipPos = 'left';
-  } else if (item.x > 55) {
+  } else if (window.innerWidth >= 640 && item.x > 55) {
     tooltipPos = 'right';
   } else {
     tooltipPos = 'top';
@@ -251,7 +251,7 @@ spheresData.forEach((item, i) => {
   tooltip.className = "sphere-tooltip absolute opacity-0 invisible transition-all duration-300 pointer-events-none z-20";
 
   const tooltipInner = `
-    <div class="bg-[#0e0318] border border-[rgba(255,45,138,0.25)] p-3 min-w-[180px] max-w-[210px] rounded-[2px] shadow-[0_0_40px_rgba(0,0,0,0.6)]">
+    <div class="bg-[#0e0318] border border-[rgba(255,45,138,0.25)] p-3 min-w-[140px] max-w-[180px] sm:min-w-[180px] sm:max-w-[210px] rounded-[2px] shadow-[0_0_40px_rgba(0,0,0,0.6)]">
       <div class="font-cinzel text-[8px] tracking-[0.2em] text-[rgba(255,133,192,0.5)] uppercase mb-1">${item.level}</div>
       <div class="font-cinzel text-[11px] text-[#ff85c0] mb-0.5">${item.name}</div>
       <div class="font-cinzel text-[8px] text-[#d688ff] mb-1.5">${item.title}</div>
