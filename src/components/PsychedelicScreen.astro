@@ -6,6 +6,7 @@
         id="psychedelic-video"
         src="/Psycodelic_homun.mp4"
         playsinline
+        muted
         class="absolute top-0 left-0 w-full h-full object-contain"
         style="background:#000"
       ></video>
@@ -149,6 +150,7 @@ function openModal() {
   video.play().catch(() => {});
   video.addEventListener("playing", function onPlaying() {
     loadingEl.style.opacity = "0";
+    video.muted = false;
     buttonsContainer.classList.add("show");
     video.removeEventListener("playing", onPlaying);
   });
