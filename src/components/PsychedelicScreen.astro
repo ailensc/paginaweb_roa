@@ -133,7 +133,6 @@ const quitBtn = document.getElementById("btn-quit");
 const loadingEl = document.getElementById("psychedelic-loading");
 let videoEnded = false;
 let revealed = false;
-let videoInitialHeight = 0;
 
 function openModal() {
   videoEnded = false;
@@ -168,20 +167,11 @@ function closeModal() {
 
 function revealInfo() {
   revealed = true;
-  videoInitialHeight = Math.max(window.innerHeight * 0.45, 260);
-  videoSection.style.transition = "none";
-  videoSection.style.height = videoInitialHeight + "px";
+  videoSection.style.height = Math.max(window.innerHeight * 0.45, 260) + "px";
   infoSection.classList.remove("hidden");
   infoSection.scrollTop = 0;
   buttonsContainer.classList.remove("show");
 }
-
-infoSection.addEventListener("scroll", () => {
-  if (!revealed) return;
-  const scrollY = infoSection.scrollTop;
-  const newHeight = Math.max(0, videoInitialHeight - scrollY);
-  videoSection.style.height = newHeight + "px";
-});
 
 video.addEventListener("ended", () => {
   videoEnded = true;
